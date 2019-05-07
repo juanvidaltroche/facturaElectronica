@@ -1,0 +1,6 @@
+Sincronizacion
+https://presiatservicios.impuestos.gob.bo:39118/FacturacionSincronizacion?wsdl
+
+Operaciones
+https://presiatservicios.impuestos.gob.bo:39117/FacturacionOperaciones?wsdl
+
