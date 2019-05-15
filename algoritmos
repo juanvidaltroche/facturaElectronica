@@ -31,3 +31,27 @@ Try
 			End If
 		Catch ex As Exception
 		End Try
+'---
+Public Function CargarExcel(ByVal vLibro As String, ByVal vHoja As String) As DataTable
+		Dim cs As String = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & vLibro & ";" & "Extended Properties=""Excel 8.0;HDR=YES"""
+		Try
+			Dim cn As New OleDbConnection(cs) 'cadena de coneccion 
+
+			If Not File.Exists(vLibro) Then
+				MsgBox("No se encontro un libro válido en la ubicación especificada.", MsgBoxStyle.Exclamation, "bnb")
+				Return New DataTable
+				Exit Function
+			End If
+
+			Dim da As New OleDbDataAdapter("select * from [" & vHoja & "$]", cs)
+			Dim ds As New DataSet
+
+			da.Fill(ds)
+			Return ds.Tables(0)
+
+		Catch ex As Exception
+			'MsgBox("No se encontro un libro válido en la ubicación especificada. " & ex.Message.ToString, MsgBoxStyle.Exclamation, "bnb")
+			Return New DataTable
+		End Try
+		Return New DataTable
+	End Function
