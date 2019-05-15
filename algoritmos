@@ -1,0 +1,33 @@
+'----- Prueba masiva para generacion de cuf y su validación
+Try
+			Dim rutaXls As String = String.Empty
+			Dim dt As New DataTable
+
+			OpenFileDialog1.DefaultExt = "*.xls"
+			OpenFileDialog1.Filter = "Excel | *.xls;*.xlsx"
+			If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+				Exit Sub
+			Else
+				rutaXls = OpenFileDialog1.FileName
+				dt = CargarExcel(rutaXls, "Hoja1")
+
+
+				Dim cuf_a As String
+				Dim cuf_b As String
+				Dim i As Integer = 1
+				For Each dr As DataRow In dt.Rows
+					cuf_a = LibreriaFacturas.Utilitarios.GeneraCuf(dr.Item(20).ToString()).Trim
+					cuf_b = dr.Item(23).ToString().Trim.ToLower
+
+					If cuf_a <> cuf_b Then
+						MessageBox.Show(CType(i, String))
+						i = 0
+					End If
+					i += 1
+				Next
+				If i - 1 = dt.Rows.Count Then
+					MessageBox.Show("Correcto")
+				End If
+			End If
+		Catch ex As Exception
+		End Try
